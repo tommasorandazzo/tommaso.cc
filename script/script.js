@@ -37,22 +37,6 @@ for (let i = 0; i < buttons.length; i++) {
   buttons.setAttribute('role', 'button')
 }
 
-// ABOUT PAGE: SKILLS: SEE MORE
-var seemore = document.getElementById('seemore')
-var skills = document.getElementsByClassName('skills')[0]
-
-if (seemore === null){}else{
-  seemore.onclick = function() {
-    if (skills.style.height === '400px'){
-      skills.style.height = '100%'
-      seemore.innerHTML = '<button>See less...</button>'
-    } else{
-      skills.style.height = '400px'
-      seemore.innerHTML = '<button>See more...</button>'
-    }
-  }
-}
-
 // GRAPHICS/SOCIAL PAGE: MODALS
 var thumbnail = document.getElementsByClassName('thumbnail')
 var modal = document.getElementsByClassName('graphics-modal')
