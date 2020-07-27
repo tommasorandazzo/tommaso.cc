@@ -1,0 +1,21 @@
+//Colors
+$darkpurple: #786A80;
+$lightpurple: #EFD4FF;
+$brandpurple: #d386ff;
+$offwhite: #f2f2f2;
+$offblack: #333;
+$lightgray: #8a8a8a;
+
+//Parallelogram Images
+$parallelogram: polygon(13% 0%, 100% 0%, 87% 100%, 0% 100%);
+
+@mixin shadow {
+  content: '';
+  clip-path: $parallelogram;
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: A bar chart whose data updates with new data (labels, too)</title>
+		<script type="text/javascript" src="d3.js"></script>
+		<style type="text/css">
+			html{
+				background-color: rgba(38, 168, 59, 0.5);
+				text-align: center;
+			}
+			body{
+				font-family: Gotham, sans-serif;
+				width: 950px;
+				height: 100vh;
+				margin: auto;
+				box-shadow: 20px 20px 40px rgb(75,75,75);
+				padding: 20px;
+				background-color: #FFF;
+			}
+			select{
+				border: #18453B 1px solid;
+				box-shadow: 3px 3px 10px rgba(50,50,50,0.75);
+				color: #18453B;
+				font-family: Gotham, sans-serif;
+				outline: none;
+				font-size: 16px;
+			}
+			button:active{
+				background-color: #0DB14B;
+				box-shadow: 1px 1px 7px rgba(50,50,50,1);
+			}
+			.chart{
+				display: block;
+				width: 700px;
+				margin: 20px auto;
+				min-height: 250px;
+				background: rgb(200,200,200);
+				border-radius: 15px;
+				padding: 10px 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Student Grades</h1>
+		<p>Select a student below to view their grades for the semester.</p>
+		<p>You are able to go back to students, if necessary.</p>
+		<select id="selection">
+			<option value="john">John Doe</option>
+			<option value="kayla">Kayla Smith</option>
+			<option value="rick">Rick Epps</option>
+		</select>
+		<div class="chart" id="chart"></div>
+		<div id="rick100"></div>
+		<script type="text/javascript">
+
+			//Width and height
+			var w = 600;
+			var h = 250;
+			var dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ]
+			//1. Create variables named xScale and yScale to set the input domain and output range. The xScale should use the scaleBand method, and the yScale method should use the scaleLinear method. Pg. 150 (xScale) and bottom of Pg. 153 (yScale).
+			var xScale = d3.scaleBand()
+				.domain(d3.range(dataset.length))
+				.rangeRound([0,w])
+				.paddingInner(0.05);
+			var yScale = d3.scaleLinear()
+				.domain([0, d3.max(dataset)])
+				.range([0,h]);
+			//2. Create the SVG element
+			var svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+			//3. Create the vertical bars needed for our bar chart. Pg. 153
+			svg.selectAll("rect")
+				.data(dataset)
+				.enter()
+				.append("rect")
+				.attr("x", function(d, i) {
+					return xScale(i);
+			})
+				.attr("y", function(d) {
+					return h - yScale(d);
+			})
+				.attr("width", xScale.bandwidth())
+					.attr("height", function(d) {
+							return yScale(d);
+					})
+					.attr("fill", function(d){
+						return "#0DB14B";
+					});
+			//4. Create the labels that show the number of each data point. Then position the labels correctly and style the labels as Gotham, 11px, and the color white. Pg. 153
+			svg.selectAll("text")
+					.data(dataset)
+					.enter()
+					.append("text")
+					.text(function(d) {
+							return d;
+					})
+					.attr("x", function(d, i) {
+							return xScale(i) + xScale.bandwidth() / 2; 
+					})
+					.attr("y", function(d) {
+							return h - yScale(d) + 14;
+					})
+					.attr("font-family", "Gotham")
+					.attr("font-size", "11px")
+					.attr("fill", "black")
+					.attr("text-anchor", "middle");
+			//5. Create the event listener necessary to make a second dataset appear. Pg. 155		
+				d3.select("#selection")
+					.on('change', function() {
+					//These are the new values for dataset
+					var rick100 = document.getElementById("rick100")
+					var updateChart = function(color, textColor) {
+						svg.selectAll("rect")
+								.data(dataset)
+								.transition()
+								.duration(1000)
+								.attr("y", function(d) {
+									return h - yScale(d)
+								})
+								.attr("height", function(d) {
+									return yScale(d)
+								})
+								.attr("fill", function(d) {
+									return color;
+								})
+								svg.selectAll("text")
+									.data(dataset)
+									.transition()
+									.duration(1000)
+									.text(function(d) {
+											return d;
+									})
+									.attr("x", function(d, i) {
+											return xScale(i) + xScale.bandwidth() / 2;
+									})
+									.attr("y", function(d) {
+											return h - yScale(d) + 14
+									})
+									.attr("fill", textColor);
+					}
+					var selection = document.getElementById("selection")
+					if (selection.value === 'john'){
+						dataset = [5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+							11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+						updateChart("#0DB14B", "black")
+						rick100.innerHTML = ''
+					}else if (selection.value === 'kayla') {
+						dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
+						5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
+						updateChart("#571c85", "white")
+						rick100.innerHTML = ''
+					} else if (selection.value === 'rick'){
+						dataset = [ 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 
+						25, 25, 25, 25, 25, 25, 25, 25, 25, 25];
+						updateChart("#CB5A28", "white")
+						rick100.innerHTML = '<p>Rick got 100% on everything!!</p>'
+					} else {}})
+		</script>
+	</body>
+</html>
