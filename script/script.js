@@ -43,7 +43,7 @@ var modals = document.getElementsByClassName('graphics-modal')
 var closeModals = document.getElementsByClassName('close')
 
 for (let i = 0; i < thumbnails.length; i++) {
-  var thumbnail = thumbnails[i]
+  const thumbnail = thumbnails[i]
   thumbnail.setAttribute('role', 'button')
   thumbnail.setAttribute('tabindex', '0')
 }
@@ -55,21 +55,21 @@ for (var i = 0; i < thumbnails.length; i++){
     const closeModal = closeModals[i]
     thumbnail.addEventListener('click', function(){
       stopScroll()
-      modal.style.maxHeight = '100vh'
-      modal.style.opacity = '1'
+      modal.classList.remove('closed-modal')
+      modal.classList.add('opened-modal')
       modal.setAttribute('aria-hidden', 'false')
     })
     closeModal.addEventListener('click', function(){
       startScroll()
-      modal.style.maxHeight = '0'
-      modal.style.opacity = '0'
+      modal.classList.add('closed-modal')
+      modal.classList.remove('opened-modal')
       modal.setAttribute('aria-hidden', 'true')
     })
     window.addEventListener('click', function() {
       if (event.target == modal) {
         startScroll()
-        modal.style.maxHeight = '0'
-        modal.style.opacity = '0'
+        modal.classList.add('closed-modal')
+        modal.classList.remove('opened-modal')
         modal.setAttribute('aria-hidden', 'true')
       }
     })
