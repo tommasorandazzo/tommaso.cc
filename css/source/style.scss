@@ -27,7 +27,6 @@ header{
   justify-items: stretch;
   text-align: right;
   color: $offblack;
-  text-shadow: 1px 1px 1px #000;
   h1{
     font-size: 60px;
   }
@@ -119,7 +118,7 @@ header{
   position: fixed;
   top: 10px;
   right: 10px;
-  filter: drop-shadow(4px 4px 2px $darkpurple);
+  filter: drop-shadow(4px 4px 0 $darkpurple);
 }
 #mobile-nav-toggle{
   background: $lightpurple;
@@ -349,10 +348,12 @@ p{
   }
 }
 .btn{
-  display: block;
+  display: inline-block;
   margin: auto;
-  width: fit-content;
   padding: 7px 10px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%);
 }
 .btn-primary{
   background-color: $lightpurple;
@@ -365,36 +366,23 @@ p{
     box-shadow: 3px 3px darken($darkpurple, 10);
   }
 }
-
+.btn-container{
+  display: block;
+  margin: 0 auto;
+}
 //HOMEPAGE
 .home-highlight1-header::after{
   content: "...";
 }
+.home-header-text{
+  text-shadow: 1px 1px 1px #000;
+}
 .highlight1-img{
   margin: 0 30px;
-}
-.home-header{
-  h1{
-    color: $offwhite;
-    font-size: 60px;
-    }
-    h2{
-    font-style: italic;
-    font-weight: 400;
-    }
-    h1, h2{
-      margin: 0;
-      text-align: right;
-    }
 }
 @media screen and (max-width: 750px){
   .highlight1-img{
     margin: 0;
-  }
-  .home-header{
-    h1, h2{
-      text-align: center;
-    }
   }
 }
 //SECONDARY PAGES
@@ -604,11 +592,13 @@ p{
     max-width: 750px;
     width: fit-content;
     margin: 15px auto;
+    min-height: 100vh; max-height: 100vh;
     & img, iframe{
       width: 100%;
     }
     & iframe{
       height: 80vh;
+      border: none;
     }
   }
 }

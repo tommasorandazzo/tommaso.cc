@@ -38,15 +38,21 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 // GRAPHICS/SOCIAL PAGE: MODALS
-var thumbnail = document.getElementsByClassName('thumbnail')
-var modal = document.getElementsByClassName('graphics-modal')
-var closeModal = document.getElementsByClassName('close')
+var thumbnails = document.getElementsByClassName('thumbnail')
+var modals = document.getElementsByClassName('graphics-modal')
+var closeModals = document.getElementsByClassName('close')
 
-for (var i = 0; i < thumbnail.length; i++){
-  var thumbnail = document.getElementsByClassName('thumbnail')[i]
-  var modal = document.getElementsByClassName('graphics-modal')[i]
-  var closeModal = document.getElementsByClassName('close')[i]
+for (let i = 0; i < thumbnails.length; i++) {
+  var thumbnail = thumbnails[i]
+  thumbnail.setAttribute('role', 'button')
+  thumbnail.setAttribute('tabindex', '0')
+}
+
+for (var i = 0; i < thumbnails.length; i++){
   if (document.title === 'Tommaso | Graphics' || document.title === 'Tommaso | Social'){
+    const thumbnail = thumbnails[i]
+    const modal = modals[i]
+    const closeModal = closeModals[i]
     thumbnail.addEventListener('click', function(){
       stopScroll()
       modal.style.maxHeight = '100vh'
